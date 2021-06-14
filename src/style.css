@@ -1,0 +1,70 @@
+@font-face {
+    font-family: 'Sourdough';
+    src: url('Sourdough.ttf');
+}
+
+.title {
+    -fx-font-size: 50px;
+    -fx-font-family: 'Sourdough';
+}
+
+.theme {
+    -fx-background-color: #a773eb;
+}
+.label {
+    -fx-font-family: 'Sourdough';
+    -fx-text-fill: #b7eb73;
+}
+.lbls {
+    -fx-font-size: 25px;
+    -fx-padding: 25 0 0 0;
+}
+
+.button {
+    -fx-background-radius: 100px;
+    -fx-font-size:40px;
+    -fx-background-color: #eb73b7;
+    -fx-text-fill: #b7eb73;
+    -fx-font-family: "Sourdough";
+}
+.button:hover{
+    -fx-background-color: #b7eb73;
+    -fx-text-fill: #eb73b7;
+}
+.menu-bar {
+    -fx-font-size: 25px;
+    -fx-background-color:#eb73b7;
+}
+.menu-bar:focused{
+    -fx-background-color:#b7eb73;
+}
+.menu-item{
+    -fx-background-color:#eb73b7;
+}
+.menu-item:focused .label{
+    -fx-text-fill:#eb73b7;
+}
+.menu-item:focused{
+    -fx-background-color:#b7eb73;
+    -fx-text-fill:#eb73b7;
+}
+.table-view .column-header{
+    -fx-background-color:#eb73b7;
+}
+
+.splashTtl{
+    -fx-padding: 40 0 40 0;
+}
+.splashBtnBox{
+    -fx-padding: 20 0 0 0;
+    -fx-spacing: 20;
+    -fx-alignment: BASELINE_CENTER;
+}
+
+.splashBtn{
+    -fx-min-width: 400px;
+}
+
+
+
+
