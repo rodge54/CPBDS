@@ -3,11 +3,13 @@ package hibiscus;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -101,18 +103,60 @@ public class CpbdsGui extends Application{
         //Drop extra column
         rptPersonTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        // TODO: Create methods for the handle event when editing cells.
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        // Makes editable cells
+        nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Person, String>>() {
+                                    @Override
+                                    public void handle(TableColumn.CellEditEvent<Person, String> event) {
+                                        Person person = event.getRowValue();
+                                        person.setName(event.getNewValue());
+                                        updatePerson(person);
+                                    }
+                                });
+
         stateCol.setCellValueFactory(new PropertyValueFactory<>("state"));
+        // Makes editable cells
+        stateCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        stateCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Person, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Person, String> event) {
+                Person person = event.getRowValue();
+                person.setState(event.getNewValue());
+                updatePerson(person);
+            }
+        });
+
         aboutMeCol.setCellValueFactory(new PropertyValueFactory<>("aboutMe"));
+        // Makes editable cells
+        aboutMeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        aboutMeCol.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Person, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Person, String> event) {
+                Person person = event.getRowValue();
+                person.setAboutMe(event.getNewValue());
+                updatePerson(person);
+            }
+        });
+
         //Add Data
         ObservableList<Person> personList = getPersonList();
         rptPersonTable.setItems(personList);
         //Add Column headers
         rptPersonTable.getColumns().addAll(nameCol, stateCol, aboutMeCol);
 
+        Button deletePerson = new Button("Delete Selected Row");
+        deletePerson.setOnAction(e -> {
+            Person person = rptPersonTable.getSelectionModel().getSelectedItem();
+            rptPersonTable.getItems().removeAll(person);
+            //TODO: make sure they are not connected to any flowers first.
+//            deletePerson(person);
+        });
+
         vBox.setSpacing(5);
 //        vBox.setPadding(new Insets(10, 0, 0, 10));
-        vBox.getChildren().addAll(addMenu(primaryStage), vBoxTitle, rptPersonTable);
+        vBox.getChildren().addAll(addMenu(primaryStage), vBoxTitle, rptPersonTable, deletePerson);
         rptPersonPage = new Scene(vBox, v, v1);
         rptPersonPage.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
     }
@@ -391,5 +435,17 @@ public class CpbdsGui extends Application{
         vBoxTitle.setAlignment(Pos.CENTER);
         vBoxTitle.getChildren().add(titleLBL);
         return vBoxTitle;
+    }
+
+    private void updatePerson(Person person){
+        CpbdsDb db = new CpbdsDb();
+
+        db.updatePerson(person.getPersonId(), person.getName(), person.getState(), person.getAboutMe());
+    }
+
+    private void deletePerson(Person person){
+        CpbdsDb db = new CpbdsDb();
+        //TODO: Add a popup warning the person before deleting.
+        db.deletePerson(person.getPersonId());
     }
 }

@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Sourdough';
-    src: url('Sourdough.ttf');
+    src: url('file:src/Sourdough.ttf');
 }
 
 /* VARIABLE DEFINITIONS */
@@ -30,7 +30,7 @@
     -fx-font-size:40px;
     -fx-background-color: -fx-my-pink;
     -fx-text-fill: -fx-my-green;
-    -fx-font-family: "Sourdough";
+    -fx-font-family: 'Sourdough';
 }
 .button:hover{
     -fx-background-color: -fx-my-green;

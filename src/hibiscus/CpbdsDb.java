@@ -109,6 +109,49 @@ public class CpbdsDb {
         return peopleList;
     }
 
+    public boolean updatePerson(int id, String name, String state, String aboutMe){
+        boolean success;
+        try{
+            // Establish DB connection
+            Connection conn = DriverManager.getConnection(dbConnString);
+            Statement statement = conn.createStatement();
+
+            statement.execute("UPDATE person SET name = '"+ name + "', state = '" + state + "', about_me = '" + aboutMe + "' WHERE person_id = " + id);
+            System.out.println("Person Updated!");
+            success = true;
+
+            // Closes connection to DB
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+            success = false;
+        }
+        return success;
+
+    }
+
+    public boolean deletePerson(int id){
+        boolean success;
+        try{
+            // Establish DB connection
+            Connection conn = DriverManager.getConnection(dbConnString);
+            Statement statement = conn.createStatement();
+
+            statement.execute("DELETE FROM person WHERE person_id = " + id);
+            System.out.println("Person Deleted!");
+            success = true;
+
+            // Closes connection to DB
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+            success = false;
+        }
+        return success;
+    }
+
     /**
      * Creates new flower in database.
      * @param momId
